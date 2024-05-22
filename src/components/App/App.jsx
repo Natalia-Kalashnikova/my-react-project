@@ -1,10 +1,26 @@
 // src/App.jsx
 
+import { useEffect, useState } from 'react';
 import Product from '../Product/Product';
+import axios from "axios";
 
 export default function App() {
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    async function fetchArticles() {
+      const response = await axios.get(
+        "https://hn.algolia.com/api/v1/search?query=react"); 
+      
+      setArticles(response.data.hits);
+    }
+
+    fetchArticles();
+  }, []);
+
   return (
     <div>
+      <div>
       <h1>Best selling</h1>
 
       <Product
@@ -20,8 +36,13 @@ export default function App() {
         name="Fries and Burger"
         imgUrl="https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?dpr=2&h=480&w=640"
         price={14.29}
-      />
+        />
+      </div>
+      <div>
+        <h1>Latest articles</h1>
+      </div>
     </div>
+
   );
 }
 
