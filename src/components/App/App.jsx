@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Product from '../Product/Product';
 import axios from "axios";
+import ArticlesList from '../ArticlesList/ArticlesList';
 
 export default function App() {
   const [articles, setArticles] = useState([]);
@@ -10,8 +11,7 @@ export default function App() {
   useEffect(() => {
     async function fetchArticles() {
       const response = await axios.get(
-        "https://hn.algolia.com/api/v1/search?query=react"); 
-      
+        "https://hn.algolia.com/api/v1/search?query=react");      
       setArticles(response.data.hits);
     }
 
@@ -40,9 +40,9 @@ export default function App() {
       </div>
       <div>
         <h1>Latest articles</h1>
+        {articles.length > 0 && <ArticlesList items={articles}/>}
       </div>
     </div>
-
   );
-}
+};
 
