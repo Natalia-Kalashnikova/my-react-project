@@ -53,6 +53,7 @@ import GridLoader from "react-spinners/GridLoader";
 export default function App() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchArticles() {
@@ -62,7 +63,7 @@ export default function App() {
         "https://hn.algolia.com/api/v1/search?query=react");      
       setArticles(response.data.hits);
       } catch (error) {
-        
+        setError(true); 
       } finally {
         setLoading(false);
       }
@@ -75,6 +76,9 @@ export default function App() {
     <div>
       <h1>Latest articles</h1>
       {loading && <GridLoader color="#36d7b7" />}
+      {error && (
+        <p>Whoops, something went wrong! Please try reloading this page!</p>
+      )}
         {articles.length > 0 && <ArticlesList items={articles}/>}      
     </div>
   );
